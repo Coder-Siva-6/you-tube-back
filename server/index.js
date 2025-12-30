@@ -1,6 +1,9 @@
 const express = require("express")
 const cors = require("cors")
 const dotenv = require('dotenv')
+const MongoStore = require("connect-mongo");
+
+
 
 // requireing for google authentication
 const passport = require('passport')
@@ -78,7 +81,10 @@ app.use(session
         name: 'Google-Auth-Session',
         secret: process.env.SESSION_SECRET,
         resave: false,  // do not save session if unmodified
-        saveUninitialized: true,  // do not create session until something stored
+        saveUninitialized: false, 
+        store: MongoStore.create({
+    mongoUrl: process.env.DB_URL
+  }),// do not create session until something stored
         cookie: {
             maxAge: 30 * 24 * 60 * 60 * 1000,  // cookie expiry time of 1 day
             httpOnly: true,  // cookie not accessible via client side scripts
