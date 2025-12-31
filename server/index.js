@@ -89,7 +89,7 @@ app.use(session
         ttl: 30 * 24 * 60 * 60 
   }),// do not create session until something stored
         cookie: {
-            maxAge: 30 * 24 * 60 * 60 *,  // cookie expiry time of 1 day
+            maxAge: 30 * 24 * 60 * 60  // cookie expiry time of 1 day
             httpOnly: true,  // cookie not accessible via client side scripts
             secure: true,  // cookie sent over http only inproduction set it to true
             sameSite: 'None'  // CSRF protection
