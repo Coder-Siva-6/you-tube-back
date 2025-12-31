@@ -73,6 +73,8 @@ app.post('/api/test', async (req, res) => {
 })// test API to check videos in DB
 
 
+app.use('/', userRouter) // using user router for google authentication routes
+app.set("trust proxy", 1)
 
 //user login api 
 // session middleware configuration with cookie settings and security options
@@ -104,7 +106,6 @@ app.use(session
 
 
 
-app.use('/', userRouter) // using user router for google authentication routes
 app.use('/', uploadRouter)
 app.use('/', videoRouter)
 app.use('/', subscribeRouter)
