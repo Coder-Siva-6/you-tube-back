@@ -1,7 +1,7 @@
 const express = require("express")
 const cors = require("cors")
 const dotenv = require('dotenv')
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo").default
 
 
 
@@ -83,13 +83,15 @@ app.use(session
         resave: false,  // do not save session if unmodified
         saveUninitialized: false, 
         store: MongoStore.create({
-    mongoUrl: process.env.DB_URL
+        mongoUrl: process.env.DB_URL,
+        collectionName: 'sessions',
+        ttl: 30 * 24 * 60 * 60 
   }),// do not create session until something stored
         cookie: {
             maxAge: 30 * 24 * 60 * 60 * 1000,  // cookie expiry time of 1 day
             httpOnly: true,  // cookie not accessible via client side scripts
-            secure: true,  // cookie sent over http only inproduction set it to true
-            sameSite: 'none'  // CSRF protection
+            secure: false,  // cookie sent over http only inproduction set it to true
+            sameSite: 'lax'  // CSRF protection
         }
     }))
 
