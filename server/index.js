@@ -91,7 +91,7 @@ app.use(session
             maxAge: 30 * 24 * 60 * 60 * 1000,  // cookie expiry time of 1 day
             httpOnly: true,  // cookie not accessible via client side scripts
             secure: true,  // cookie sent over http only inproduction set it to true
-            sameSite: 'none'  // CSRF protection
+            sameSite: 'lax'  // CSRF protection
         }
     }))
 
