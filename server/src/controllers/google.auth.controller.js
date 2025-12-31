@@ -93,13 +93,40 @@ router.get(
 
 
 
+//router.get(
+//  "/auth/google/callback",
+ // passport.authenticate("google", {
+//    successRedirect: `${process.env.FRONTEND_PAGE_LINK}`, // Login success
+//    failureRedirect: "/logfailed"         // Login failed
+//  })
+  
+//);
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", {
-    successRedirect: `${process.env.FRONTEND_PAGE_LINK}`, // Login success
-    failureRedirect: "/logfailed"         // Login failed
-  })
-);
+  passport.authenticate("google", { failureRedirect: "/logfailed" }),
+  (req, res, next) => {
+
+    // 🔑 VERY IMPORTANT: regenerate session
+    req.session.regenerate((err) => {
+      if (err) return next(err)
+
+      // attach passport user again
+      req.login(req.user, (err) => {
+        if (err) return next(err)
+
+        // redirect to frontend
+        return res.redirect(process.env.FRONTEND_PAGE_LINK)
+      })
+    })
+  }
+)
+
+
+
+
+
+
+
 
 
 router.get('/logfailed', (req, res) => {
